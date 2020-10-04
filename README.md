@@ -1,7 +1,10 @@
 # DevOps Stuff
 
 ## About
-All DevOps information i can share
+DevOps Stuff
+
+### Template Generator
+In template-generator directory you can find a tool that can easly generate or render template that you will defined.
 
 
 <h2> AWS </h2>
@@ -12,6 +15,3 @@ This script is copied from <a href="https://mysteriouscode.io/blog/sharing-encry
 
 <h2> Azure </h2>
 
-<h2> OpenStack </h2>
-
-<h2> Ansible </h2>
