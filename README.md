@@ -4,7 +4,7 @@
 DevOps Stuff
 
 ### Template Generator
-In template-generator directory you can find a tool that can easly generate or render template that you will defined.
+    In template-generator directory you can find a tool that can easily generate or render template that you will defined.
 
 
 <h2> AWS </h2>

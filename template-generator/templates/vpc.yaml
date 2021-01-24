@@ -1,0 +1,17 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: '{{ user_data.stack_description }}'
+
+Resources:
+  VPC:
+    Type: AWS::EC2::VPC
+    Properties:
+      CidrBlock: {{ user_data.vpc_cidr_block }}
+      EnableDnsSupport: {{ user_data.enable_dns_support}}
+      EnableDnsHostnames: {{ user_data.enable_dns_hostname }}
+      InstanceTenancy: {{ user_data.instance_tenancy }}
+      Tags:
+      {%- for key, value in user_data.tags.items() %}
+        - Key: {{ key }}
+          Value: {{ value }}
+      {%- endfor %}
+

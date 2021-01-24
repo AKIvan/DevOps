@@ -1,0 +1,10 @@
+template_path: vpc.yaml
+stack_name: DevOps Stack
+
+user_data:
+  stack_description: DevOps Stack
+  vpc_cidr_block: 10.17.0.0/16
+  enable_dns_support: false
+  enable_dns_hostname: false
+  instance_tenancy: dedicated
+  tags: {'Key': 'Value', 'Key2': 'Value2'}
