@@ -7,6 +7,7 @@ DevOps Stuff
     In template-generator directory you can find a tool that can easily generate or render template that you will defined.
 
 
+
 <h2> AWS </h2>
 
 ### Boto3 Sharing encrypted AMIs Between AWS Accounts
