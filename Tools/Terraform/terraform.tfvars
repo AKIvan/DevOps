@@ -1,6 +1,3 @@
-aws_region  = "us-east-1"
-environment = "dev"
-
 groups = [
   {
     name     = "admin"
@@ -9,6 +6,10 @@ groups = [
   {
     name     = "read-only"
     policies = ["ReadOnlyAccess"]
+  },
+  {
+    name     = "s3-full-access"
+    policies = ["AmazonS3FullAccess"]
   }
 ]
 
@@ -20,5 +21,9 @@ users = [
   {
     name  = "user2"
     group = "read-only"
+  },
+  {
+    name  = "user3"
+    group = "s3-full-access"
   }
 ]
