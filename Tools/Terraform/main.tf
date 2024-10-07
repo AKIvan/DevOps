@@ -14,7 +14,10 @@ provider "aws" {
 module "iam" {
   source = "./modules/iam"
 
-  aws_region  = var.aws_region
+
+  aws_region  = "us-west-2"
+  environment = "dev"
+  aws_region  = var.aws_region 
   environment = var.environment
   groups      = var.groups
   users       = var.users

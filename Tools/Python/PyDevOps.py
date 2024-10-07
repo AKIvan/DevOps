@@ -9,7 +9,15 @@ import pprint as pp
 
 
 class EC2Analyzer:
-    """ """
+    """
+    EC2Analyzer is responsible for interacting with AWS EC2 services
+    to retrieve instance specifications and current spot prices for a given list
+    of EC2 instance types within a specified region.
+
+    Parameters:
+        - region (str): The AWS region to query.
+        - instance_types (list): A list of EC2 instance type strings.
+    """
 
     def __init__(self, region, instance_types):
         self.region = region
@@ -19,6 +27,10 @@ class EC2Analyzer:
         self.prices = {}
 
     def get_instance_specs(self):
+        """
+        Retrieves the specifications (vCPUs and memory) for each EC2 instance type
+        in the provided list. Populates the self.specs dictionary with the data.
+        """
         try:
             response = self.ec2_client.describe_instance_types(
                 InstanceTypes=self.instance_types
@@ -40,6 +52,10 @@ class EC2Analyzer:
             # print(self.specs)
 
     def get_spot_prices(self):
+        """
+        Retrieves the latest spot prices for each EC2 instance type in the list.
+        Populates the self.prices dictionary with the data.
+        """
         try:
             response = self.ec2_client.describe_spot_price_history(
                 InstanceTypes=self.instance_types,
@@ -59,12 +75,24 @@ class EC2Analyzer:
 
 
 class CostEffectivenessCalculator:
+    """
+    CostEffectivenessCalculator calculates the cost-effectiveness score for each
+    EC2 instance type based on its specifications and current spot price.
+
+    Parameters:
+        - specs (dict): A dictionary containing instance specifications.
+        - prices (dict): A dictionary containing spot prices.
+    """
     def __init__(self, specs, prices):
         self.specs = specs
         self.prices = prices
         self.results = []
 
     def calculate(self):
+        """
+        Calculates the cost-effectiveness score for each instance type and
+        appends the results to the self.results list.
+        """
         for instance_type in self.specs:
             vcpus = self.specs[instance_type]["vcpus"]
             memory = self.specs[instance_type]["memory"]
@@ -85,10 +113,22 @@ class CostEffectivenessCalculator:
             )
 
     def get_ranked_results(self):
+        """
+        Sorts the calculated results in descending order based on the cost-effectiveness score.
+
+        Returns:
+        - list: A sorted list of dictionaries containing the results.
+        """
         return sorted(self.results, key=itemgetter("CostEffectiveness"), reverse=True)
 
 
 class EC2SpotInstanceCostEffectivenessTool:
+    """
+    EC2SpotInstanceCostEffectivenessTool orchestrates the workflow of retrieving
+    EC2 instance specifications and spot prices, calculating cost-effectiveness,
+    and displaying the ranked results.
+    """
+
     def __init__(self):
         self.args = self.parse_arguments()
         self.instance_types = self.get_instance_types()
@@ -96,6 +136,13 @@ class EC2SpotInstanceCostEffectivenessTool:
         self.calculator = None
 
     def parse_arguments(self):
+        """
+        Parses command-line arguments to retrieve the AWS region and list of
+        EC2 instance types or a JSON file containing them.
+
+        Returns:
+        - Namespace: An object containing parsed command-line arguments.
+        """
         parser = argparse.ArgumentParser(description="Cost Effectiveness Calculator")
         parser.add_argument("--region", required=True, help="AWS Region")
 
@@ -112,6 +159,13 @@ class EC2SpotInstanceCostEffectivenessTool:
         return parser.parse_args()
 
     def get_instance_types(self):
+        """
+        Retrieves the list of EC2 instance types either directly from command-line
+        arguments or by reading a JSON file.
+
+        Returns:
+        - list: A list of EC2 instance type strings.
+        """
         if self.args.instance_types:
             return self.args.instance_types
         elif self.args.instance_file:
